@@ -1,0 +1,869 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Elegant Store — Pastel Gradient Theme</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===========================
+   THEME (modern pastel + gradient)
+   =========================== */
+    :root {
+      --bg-start: #f7f8ff;
+      --bg-end: #f1f6f9;
+      --accent-1: #a8dadc;
+      /* pastel teal */
+      --accent-2: #ffd6a5;
+      /* pastel peach */
+      --accent-3: #cdb4db;
+      /* pastel lavender */
+      --accent-4: #9ad0f5;
+      /* pastel sky */
+      --card-bg: rgba(255, 255, 255, 0.92);
+      --glass-border: rgba(255, 255, 255, 0.7);
+      --radius: 16px;
+      --shadow-sm: 0 6px 18px rgba(18, 24, 38, 0.06);
+      --shadow-md: 0 12px 30px rgba(18, 24, 38, 0.10);
+      --muted: #6f7a83;
+      --text: #0e2430;
+      font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0
+    }
+
+    body {
+      background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.5;
+    }
+
+    /* ====== LAYOUT ====== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    /* ================= NAVBAR ================= */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 16px 24px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--glass-border);
+      position: sticky;
+      top: 16px;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    .brand {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .brand-badge {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--text);
+      box-shadow: var(--shadow-sm);
+      font-size: 18px;
+    }
+
+    .brand h1 {
+      font-size: 20px;
+      margin: 0
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin-left: 20px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 10px;
+      transition: .2s;
+    }
+
+    .nav-links a:hover {
+      background: linear-gradient(90deg, rgba(168, 218, 220, 0.35), rgba(205, 180, 219, 0.25));
+      transform: translateY(-2px);
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      padding: 8px 10px;
+      border: 1px solid var(--glass-border);
+    }
+
+    .search input {
+      border: 0;
+      outline: none;
+      background: transparent;
+      padding: 6px;
+      font-size: 14px;
+      width: 180px
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, var(--accent-2), var(--accent-1));
+      border: none;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      color: var(--text);
+      box-shadow: 0 8px 24px rgba(16, 32, 48, 0.08);
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px)
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid rgba(16, 32, 48, 0.1);
+      padding: 10px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(0, 0, 0, 0.04)
+    }
+
+    /* ========== HERO / SLIDER =========== */
+    .hero {
+      margin-top: 50px;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 24px;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .slider {
+      position: relative;
+      height: 460px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .slides {
+      display: flex;
+      width: 400%;
+      height: 100%;
+      animation: slideAnimation 22s infinite;
+    }
+
+    .slide {
+      flex: 1 0 100%;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      padding: 32px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .slide .info {
+      flex: 1;
+      max-width: 520px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .slide h2 {
+      margin: 0 0 10px 0;
+      font-size: 30px
+    }
+
+    .slide p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px
+    }
+
+    .slide .imgwrap {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .slide .imgwrap img {
+      width: 340px;
+      height: 240px;
+      object-fit: cover;
+      border-radius: 14px;
+      box-shadow: var(--shadow-md);
+    }
+
+    @keyframes slideAnimation {
+
+      0%,
+      20% {
+        transform: translateX(0%)
+      }
+
+      25%,
+      45% {
+        transform: translateX(-100%)
+      }
+
+      50%,
+      70% {
+        transform: translateX(-200%)
+      }
+
+      75%,
+      95% {
+        transform: translateX(-300%)
+      }
+
+      100% {
+        transform: translateX(0%)
+      }
+    }
+
+    /* ====== PRODUCTS GRID ====== */
+    .section {
+      margin-top: 70px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+
+    .product {
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 20px;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-sm);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .product:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-md)
+    }
+
+    .thumb {
+      width: 100%;
+      height: 180px;
+      border-radius: 12px;
+      object-fit: cover;
+      margin-bottom: 14px;
+      background: linear-gradient(90deg, rgba(168, 218, 220, 0.12), rgba(205, 180, 219, 0.08));
+    }
+
+    .p-title {
+      font-weight: 700;
+      margin: 0;
+      font-size: 16px
+    }
+
+    .p-desc {
+      margin: 6px 0 0;
+      font-size: 14px;
+      color: var(--muted)
+    }
+
+    .p-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 14px;
+    }
+
+    .price {
+      font-weight: 800;
+      font-size: 16px;
+      color: #0b6b5a
+    }
+
+    .add-btn {
+      background: linear-gradient(90deg, var(--accent-1), var(--accent-3));
+      border: none;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .add-btn:hover {
+      transform: translateY(-2px)
+    }
+
+    /* ===== FEATURE CARDS ===== */
+    .features {
+      display: flex;
+      gap: 20px;
+      margin-top: 70px;
+      flex-wrap: wrap;
+    }
+
+    .feature {
+      flex: 1;
+      min-width: 220px;
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 20px;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      transition: .2s;
+    }
+
+    .feature:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md)
+    }
+
+    .f-ico {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      background: linear-gradient(135deg, var(--accent-2), var(--accent-1));
+      box-shadow: var(--shadow-sm);
+    }
+
+    .f-title {
+      font-weight: 700;
+      margin: 0
+    }
+
+    .f-desc {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 14px
+    }
+
+    /* ===== OFFERS ===== */
+    .offers {
+      margin-top: 70px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    /* ==== CART SIDEBAR ==== */
+    .cart-sidebar {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      /* hidden */
+      width: 320px;
+      height: 100%;
+      background: var(--card-bg);
+      box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
+      border-left: 1px solid var(--glass-border);
+      padding: 20px;
+      transition: right 0.3s ease-in-out;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-sidebar.active {
+      right: 0;
+    }
+
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .cart-items {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    .cart-item img {
+      width: 50px;
+      height: 50px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+
+    .menu-toggle {
+      display: none;
+
+    }
+
+    .offer-card {
+      background: linear-gradient(135deg, rgba(168, 218, 220, 0.14), rgba(205, 180, 219, 0.10));
+      border-radius: 14px;
+      padding: 24px;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-sm);
+      transition: .2s;
+    }
+
+    .offer-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md)
+    }
+
+    .offer-card h3 {
+      margin: 0 0 8px 0
+    }
+
+    .offer-card p {
+      margin: 0;
+      color: var(--muted)
+    }
+
+    /* ===== NEWSLETTER ===== */
+    .newsletter {
+      margin-top: 70px;
+      background: linear-gradient(90deg, rgba(255, 214, 165, 0.12), rgba(173, 216, 230, 0.08));
+      border-radius: 14px;
+      padding: 24px;
+      border: 1px solid var(--glass-border);
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .newsletter input {
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(16, 32, 48, 0.06);
+      outline: none;
+      min-width: 240px;
+    }
+
+    .newsletter .btn-sub {
+      padding: 12px 18px;
+      border-radius: 12px;
+      background: linear-gradient(90deg, var(--accent-3), var(--accent-4));
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .newsletter .btn-sub:hover {
+      transform: translateY(-2px)
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      margin-top: 70px;
+      padding: 24px;
+      border-radius: 14px;
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .social a {
+      text-decoration: none;
+      margin-left: 12px;
+      color: var(--muted);
+      font-weight: 700;
+      transition: .2s;
+    }
+
+    .social a:hover {
+      color: var(--text)
+    }
+
+    .copyright {
+      color: var(--muted);
+      font-size: 14px
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .slide .imgwrap img {
+        width: 220px;
+        height: 160px
+      }
+
+      .search input {
+        width: 140px
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav {
+        flex-wrap: wrap;
+      }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 10px;
+        width: 100%;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: block;
+        background: none;
+        border: none;
+        font-size: 22px;
+        cursor: pointer;
+      }
+
+      .nav-actions {
+        flex: 1;
+        justify-content: flex-end;
+      }
+
+      .slide {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px
+      }
+
+      .slide .info {
+        max-width: 100%;
+        order: 2;
+      }
+
+      .slide .imgwrap {
+        order: 1;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .search input {
+        width: 100px
+      }
+
+      .btn-primary,
+      .btn-ghost,
+      .btn-sub {
+        padding: 10px 14px;
+        font-size: 14px;
+      }
+
+      .newsletter {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      footer {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- NAVBAR -->
+    <header class="nav" role="banner">
+      <div class="brand">
+        <div class="brand-badge">ES</div>
+        <div>
+          <h1 style="margin:0;font-size:16px">ELEGANT STORE</h1>
+          <div style="font-size:12px;color:var(--muted)">Pastel Collection</div>
+        </div>
+
+        <button class="menu-toggle" aria-label="Menu">☰</button>
+
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="#">Home</a>
+          <a href="#">Shop</a>
+          <a href="#">Collections</a>
+          <a href="#">Contact</a>
+        </nav>
+      </div>
+
+      <div class="nav-actions">
+        <div class="search" role="search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="opacity:.7">
+            <path d="M21 21l-4.35-4.35" stroke="#102027" stroke-width="1.4" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+          <input type="search" placeholder="Search products...">
+        </div>
+        <button class="btn-ghost" id="userNameBtn">Sign in</button>
+        <button class="btn-primary" aria-label="Cart">Cart (3)</button>
+
+
+      </div>
+    </header>
+
+    <!-- HERO / SLIDER -->
+    <section class="hero" aria-label="Featured products">
+      <div class="slider" role="region" aria-roledescription="carousel">
+        <div class="slides">
+          <div class="slide"
+            style="background: linear-gradient(120deg, rgba(168,218,220,0.04), rgba(205,180,219,0.03));">
+            <div class="info">
+              <h2>Spring Pastel Collection</h2>
+              <p>Fresh colors & lightweight fabrics — curated for a soft, modern look. Free shipping over $50.</p>
+              <div style="margin-top:12px"><button class="btn-primary">Shop Now</button></div>
+            </div>
+            <div class="imgwrap">
+              <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1200&auto=format&fit=crop"
+                alt="Featured product 1">
+            </div>
+          </div>
+
+          <div class="slide"
+            style="background: linear-gradient(120deg, rgba(255,214,165,0.04), rgba(154,208,245,0.03));">
+            <div class="info">
+              <h2>Cozy Home Essentials</h2>
+              <p>Make your home warm with subtle textures and pastel tones. Limited-time offers available.</p>
+              <div style="margin-top:12px"><button class="btn-primary">Explore</button></div>
+            </div>
+            <div class="imgwrap">
+              <img src="https://images.unsplash.com/photo-1520975911693-0a3c7b6c3b0e?q=80&w=1200&auto=format&fit=crop"
+                alt="Featured product 2">
+            </div>
+          </div>
+
+          <div class="slide"
+            style="background: linear-gradient(120deg, rgba(197,180,219,0.04), rgba(168,218,220,0.03));">
+            <div class="info">
+              <h2>Bright Accessories</h2>
+              <p>Small details that make a big difference — bags, hats and jewelry in soft hues.</p>
+              <div style="margin-top:12px"><button class="btn-primary">View Accessories</button></div>
+            </div>
+            <div class="imgwrap">
+              <img src="https://images.unsplash.com/photo-1526178617830-30f841fbd2b8?q=80&w=1200&auto=format&fit=crop"
+                alt="Featured product 3">
+            </div>
+          </div>
+
+          <div class="slide"
+            style="background: linear-gradient(120deg, rgba(154,208,245,0.04), rgba(255,214,165,0.03));">
+            <div class="info">
+              <h2>Limited Edition Drops</h2>
+              <p>Only a few pieces each season — stay ahead with our curated limited releases.</p>
+              <div style="margin-top:12px"><button class="btn-primary">See Drops</button></div>
+            </div>
+            <div class="imgwrap">
+              <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1200&auto=format&fit=crop"
+                alt="Featured product 4">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS SECTION -->
+    <section class="section" aria-label="Products">
+      <div class="section-header">
+        <h2 style="margin:0">Popular Items</h2>
+        <div style="color:var(--muted)">Showing 12 items</div>
+      </div>
+
+      <div class="grid">
+     
+        <article class="product" tabindex="0">
+          <img class="thumb"
+            src="https://images.unsplash.com/photo-1520975911693-0a3c7b6c3b0e?q=80&w=800&auto=format&fit=crop"
+            alt="Product 1">
+          <p class="p-title">Soft Cotton T-Shirt</p>
+          <p class="p-desc">Comfort fit with pastel print.</p>
+          <div class="p-row">
+            <div class="price">$24.99</div>
+            <button class="add-btn">Add</button>
+          </div>
+        </article>
+
+       
+        <article class="product" tabindex="0">
+          <img class="thumb"
+            src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=800&auto=format&fit=crop"
+            alt="Product 2">
+          <p class="p-title">Linen Summer Dress</p>
+          <p class="p-desc">Lightweight & breathable.</p>
+          <div class="p-row">
+            <div class="price">$48.00</div>
+            <button class="add-btn">Add</button>
+          </div>
+        </article>
+
+
+
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features" aria-label="Why shop with us">
+      <div class="feature">
+        <div class="f-ico">🚚</div>
+        <div>
+          <p class="f-title">Fast Delivery</p>
+          <p class="f-desc">Most orders shipped within 24 hours.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="f-ico">✅</div>
+        <div>
+          <p class="f-title">Quality Guarantee</p>
+          <p class="f-desc">Premium materials & careful checks.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="f-ico">💬</div>
+        <div>
+          <p class="f-title">24/7 Support</p>
+          <p class="f-desc">We're here to help — anytime.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- OFFERS & TESTIMONIALS -->
+    <section class="offers" aria-label="Offers and testimonials">
+      <div class="offer-card">
+        <h3>Special Offer</h3>
+        <p>Buy 2 get 1 free on select pastel tees. Limited time only.</p>
+      </div>
+
+      <div class="offer-card">
+        <h3>Gift Cards</h3>
+        <p>Send a pastel-themed gift card to someone special. Instant delivery.</p>
+      </div>
+
+      <div class="offer-card">
+        <h3>Customer Stories</h3>
+        <p>"Lovely products — the fabric is so soft!" — Sara K.</p>
+      </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section class="newsletter" aria-label="Newsletter">
+      <div class="txt">
+        <h3 style="margin:0 0 6px 0">Join our newsletter</h3>
+        <p style="margin:0;color:var(--muted)">Get 10% off your first order and early access to drops.</p>
+      </div>
+      <div style="display:flex; gap:8px; align-items:center; margin-top:8px;">
+        <input type="email" placeholder="Enter your email" aria-label="Email for newsletter">
+        <button class="btn-sub">Subscribe</button>
+      </div>
+    </section>
+
+    <!-- CART SIDEBAR -->
+    <div class="cart-sidebar" id="cartSidebar">
+      <div class="cart-header">
+        <h3>🛒 Your Cart</h3>
+        <button id="closeCart" style="border:none;background:none;font-size:20px;cursor:pointer">✖</button>
+      </div>
+      <div class="cart-items" id="cartItems">
+        <p>No items yet.</p>
+      </div>
+    </div>
+
+
+    <!-- FOOTER -->
+    <footer>
+      <div>
+        <strong>Elegant Store</strong>
+        <div style="color:var(--muted); font-size:13px">Handpicked pastel collections</div>
+      </div>
+
+      <div class="social" aria-label="Social links" style="display:flex; align-items:center;">
+        <span class="copyright">© <span id="year"></span> Elegant Store</span>
+        <nav style="margin-left:12px">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Twitter">TW</a>
+          <a href="#" aria-label="Facebook">FB</a>
+        </nav>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="index.js"></script>
+</body>
+
+</html>
