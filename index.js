@@ -9,10 +9,36 @@ let cartBtn = document.getElementById("cartIcon")
 let cartSidebar = document.getElementById("cartSidebar");
 let cartItemsContainer = document.getElementById("cartItems");
 let closeCart = document.getElementById("closeCart");
-let placeOrderBtn = document.getElementById("placeOrderBtn"); // ✅ button reference
+const placeOrderBtn = document.querySelector("#placeOrderBtn");
 let cartCountDiv = cartBtn.querySelector(".cart-count");
 cartCountDiv.textContent = cartCount;
 
+// ===== Notification Bell =====
+let notifIcon = document.getElementById("notifIcon");
+let notifCountDiv = notifIcon?.querySelector(".notif-count");
+let notifDropdown = notifIcon?.querySelector(".notif-dropdown");
+let notifCount = 0;
+
+// Toggle notification dropdown
+notifIcon?.addEventListener("click", () => {
+  if (!notifDropdown) return;
+  notifDropdown.style.display = notifDropdown.style.display === "none" ? "block" : "none";
+});
+
+// Add notification
+function addNotification(message) {
+  notifCount++;
+  if(notifCountDiv) notifCountDiv.textContent = notifCount;
+
+  if(!notifDropdown) return;
+  // Remove default msg
+  if (notifDropdown.querySelector("p") && notifDropdown.querySelector("p").textContent === "No notifications yet.") {
+    notifDropdown.innerHTML = "";
+  }
+  const p = document.createElement("p");
+  p.textContent = message;
+  notifDropdown.prepend(p);
+}
 
 // Show/Hide Place Order Button
 function updatePlaceOrderButton() {
@@ -49,7 +75,7 @@ let getDatafromDB = async () => {
         continue
       }
 
-      // ✅ Add product card
+      // Add product card
       productGrid.innerHTML += `
         <article class="product" tabindex="0">
           <img class="thumb" src="${signedUrlData.signedUrl}" alt="${item.item_name}">
@@ -63,25 +89,7 @@ let getDatafromDB = async () => {
       `
     }
 
-    // ✅ Update cart count in the span
-function updateCartCount() {
-  const cartCountDiv = document.querySelector("#cartIcon .cart-count");
-  if(cartCountDiv) cartCountDiv.textContent = cartCount;
-}
-
-// Jab item add ho
-cartCount++;
-updateCartCount();
-
-// Jab item quantity increase ho
-cartCount++;
-updateCartCount();
-
-// Jab item quantity decrease ho
-cartCount--;
-updateCartCount();
-
-    // ✅ Add to Cart
+    // Add to Cart logic
     document.querySelectorAll(".add-btn").forEach(btn => {
       btn.addEventListener("click", function () {
         let product = this.closest(".product");
@@ -90,22 +98,19 @@ updateCartCount();
         let img = product.querySelector(".thumb").src;
 
         cartCount++;
-        cartBtn.textContent = `Cart (${cartCount})`;
+        cartCountDiv.textContent = cartCount;
 
-        // ✅ remove empty msg
+        // Remove empty message
         let emptyMsg = cartItemsContainer.querySelector("p");
-        if (emptyMsg) {
-          emptyMsg.remove();
-        }
+        if (emptyMsg) emptyMsg.remove();
 
-        // ✅ Check if item already in cart
+        // Check existing item
         let existingItem = [...cartItemsContainer.querySelectorAll(".cart-item")]
           .find(item => item.querySelector("p").textContent === title);
 
         if (existingItem) {
           let qtySpan = existingItem.querySelector(".qty");
-          let currentQty = parseInt(qtySpan.textContent);
-          qtySpan.textContent = currentQty + 1;
+          qtySpan.textContent = parseInt(qtySpan.textContent) + 1;
         } else {
           let div = document.createElement("div");
           div.classList.add("cart-item");
@@ -128,7 +133,7 @@ updateCartCount();
             let qtySpan = div.querySelector(".qty");
             qtySpan.textContent = parseInt(qtySpan.textContent) + 1;
             cartCount++;
-            cartBtn.textContent = `Cart (${cartCount})`;
+            cartCountDiv.textContent = cartCount;
             updatePlaceOrderButton();
           });
 
@@ -142,7 +147,7 @@ updateCartCount();
               div.remove();
             }
             cartCount--;
-            cartBtn.textContent = `Cart (${cartCount})`;
+            cartCountDiv.textContent = cartCount;
 
             if (cartCount === 0) {
               cartItemsContainer.innerHTML = "<p>No items yet.</p>";
@@ -157,92 +162,99 @@ updateCartCount();
   }
 }
 
-
-
-
-
 window.addEventListener("DOMContentLoaded", async () => {
   const { data } = await supabase.auth.getUser();
   if (data.user) {
     const fullName = data.user.user_metadata.full_name || data.user.email;
-     document.getElementById("userNameBtn").style.background="none"
+    document.getElementById("userNameBtn").style.background="none"
     document.getElementById("userNameBtn").innerText += fullName;
   }
 });
 
 // Sidebar open/close
-cartBtn.addEventListener("click", () => {
-  cartSidebar.classList.add("active");
-});
-closeCart.addEventListener("click", () => {
-  cartSidebar.classList.remove("active");
-});
+cartBtn.addEventListener("click", () => cartSidebar.classList.add("active"));
+closeCart.addEventListener("click", () => cartSidebar.classList.remove("active"));
 
-// ✅ Load products
-getDatafromDB()
+// Load products
+getDatafromDB();
 updatePlaceOrderButton();
 
-// ✅ Navbar toggle
+// Navbar toggle
 document.querySelector('.menu-toggle').addEventListener('click', () => {
   document.querySelector('.nav-links').classList.toggle('active');
 });
 
+// Place Order
+// Place Order
+placeOrderBtn.addEventListener("click", async () => {
+  let items = [...cartItemsContainer.querySelectorAll(".cart-item")].map(item => ({
+    item_name: item.querySelector("p").textContent,
+    quantity: parseInt(item.querySelector(".qty").textContent)
+  }));
 
-//Placing Order//
+  if (items.length === 0) {
+    Swal.fire({
+      icon: "error",
+      title: "Cart is empty!",
+      text: "Please add some items before placing an order."
+    });
+    return;
+  }
 
-// ✅ Place Order and Save to Supabase
-// ✅ Place Order and Save to Supabase
-// placeOrderBtn.addEventListener("click", async () => {
-//   let items = [...cartItemsContainer.querySelectorAll(".cart-item")].map(item => {
-//     return {
-//       item_name: item.querySelector("p").textContent,
-//       quantity: parseInt(item.querySelector(".qty").textContent)
-//     }
-//   });
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+  if (userError || !userData.user) {
+    Swal.fire({
+      icon: "warning",
+      title: "Login required",
+      text: "Please login first to place your order."
+    });
+    return;
+  }
 
-//   if (items.length === 0) {
-//     alert("❌ Cart is empty!");
-//     return;
-//   }
+  const userId = userData.user.id;
 
-//   // ✅ Get logged-in user
-//   const { data: userData, error: userError } = await supabase.auth.getUser();
-//   if (userError || !userData.user) {
-//     alert("❌ Please login first!");
-//     return;
-//   }
+  try {
+    // Insert items into cart_table
+    for (let item of items) {
+      const { error } = await supabase
+        .from("cart_table")
+        .insert({
+          userID: userId,
+          item_name: item.item_name,
+          quantity: item.quantity
+        });
+      if (error) throw error;
+    }
 
-//   const userId = userData.user.id; // <-- yeh uuid hai jo supabase auth deta hai
+    // Add notification
+    await supabase
+      .from("notifications")
+      .insert({ user_id: userId, message: "You have a new order", read: false });
 
-//   // ✅ Add userID to every item
-//   const itemsWithUser = items.map(item => ({
-//     ...item,
-//     userID: userId
-//   }));
+    addNotification("Your order is being confirmed");
 
-//   const { data, error } = await supabase
-//     .from("cart_table")
-//     .insert(itemsWithUser);
+    Swal.fire({
+      icon: "success",
+      title: "Order placed!",
+      text: "✅ Your order has been placed."
+    });
 
-//   if (error) {
-//     console.error("Error inserting order:", error);
-//     alert("❌ Failed to place order!");
-//   } else {
-//     console.log("Inserted:", data);
-//     alert("✅ Order Placed Successfully!");
-//     cartItemsContainer.innerHTML = "<p>No items yet.</p>";
-//     cartCount = 0;
-//     cartBtn.textContent = `Cart (${cartCount})`;
-//     updatePlaceOrderButton();
-//   }
-// });
+    // Reset cart
+    cartItemsContainer.innerHTML = "<p>No items yet.</p>";
+    cartCount = 0;
+    cartCountDiv.textContent = cartCount;
+    updatePlaceOrderButton();
 
-
-
-
-
-
+  } catch (err) {
+    console.error("Place order error:", err);
+    Swal.fire({
+      icon: "error",
+      title: "Failed!",
+      text: "❌ Failed to place order. Try again later."
+    });
+  }
+});
 
 
-// ✅ Footer year update
+// Footer year update
 document.getElementById("year").textContent = new Date().getFullYear();

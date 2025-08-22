@@ -42,7 +42,7 @@ signupForm.addEventListener('submit', async (e) => {
         password,
         options: {
             data: { full_name: fullName },
-            emailRedirectTo: 'http://127.0.0.1:5501/user-signup.html'
+            emailRedirectTo: 'http://127.0.0.1:5502/user-signup.html'
         }
     });
 
